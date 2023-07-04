@@ -76,14 +76,16 @@ function Nav() {
       <div className="sm:hidden flex relative">
         {isUserLoggedIn ? (
           <div className="flex">
+            <div onClick={toggleDropDown}>
             <Image
               className="rounded-full"
               src="/assets/images/logo.svg"
               width={37}
               height={37}
               alt="profile"
-              onClick={toggleDropDown}
+              
             />
+            </div>
             {toggleDropDown && (
               <div className="dropdown">
                 <Link
