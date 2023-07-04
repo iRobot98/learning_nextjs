@@ -1,27 +1,28 @@
-import "@styles/globals.css"
-
-import React from 'react'
+import "@styles/globals.css";
+import Nav from "@components/Nav";
+import Provider from "@components/Provider";
+import React from "react";
 
 export const metadata = {
-    title: "Proomptopia",
-    description: "Discover and Share AI powered prompts",
-}
+  title: "Proomptopia",
+  description: "Discover and Share AI powered prompts",
+};
 
-function RootLayout({children}) {
+function RootLayout({ children }) {
   return (
     <html lang="en">
-   
-    <body>
+      <body>
         <div className="main">
-        <div className="gradient"/>
+          <div className="gradient" />
         </div>
 
         <main className="app">
-            {children}
+          <Nav />
+          {children}
         </main>
-    </body>
+      </body>
     </html>
-  )
+  );
 }
 
-export default RootLayout
+export default RootLayout;
