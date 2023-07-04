@@ -1,25 +1,47 @@
+import { connectToDB } from "@utils/database";
 import NextAuth from "next-auth/next";
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from "next-auth/providers/google";
 
+import User from "@models/user.models";
+
+connectToDB();
 // console.log({
 //     clientId:process.env.GOOGLE_ID,
 //     clientSecret:process.env.GOOGLE_CLIENT_SECRET
 // })
 const handler = NextAuth({
-    providers:[
-        GoogleProvider({
-            clientId:process.env.GOOGLE_ID,
-            clientSecret:process.env.GOOGLE_CLIENT_SECRET
-        })
-    ],
-    async session({session}){},
-    async signIn({profile}){
-        try {
-            // serverless -> lambda -> dynamoDb
-        } catch (error) {
-            
-        }
-    }
-})
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+  ],
+  async session({ session }) {
+    const sessionUser = await User.findOne({
+      email: session.user.email,
+    });
 
-export {handler as GET, handler as POST}
+    session.user.id = sessionUser._id.toString();
+
+    return session;
+  },
+  async signIn({ profile }) {
+    try {
+      // serverless -> lambda -> dynamoDb
+      await connectToDB();
+
+      const userExists = await User.findOne({
+        email: profile.email,
+      });
+
+      if (!userExists) {
+        User.create({
+          email: profile.email,
+          username: profile.name.replace(" ", "").toLowerCase(),
+        });
+      }
+    } catch (error) {}
+  },
+});
+
+export { handler as GET, handler as POST };

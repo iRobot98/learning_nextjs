@@ -28,6 +28,7 @@ function Nav() {
           src="/assets/images/logo.svg"
           className="object-contain"
           width={30}
+          alt="logo"
           height={30}
         />
         <p className="logo">Promptopia</p>
