@@ -2,9 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { ProfileImage } from "./subcomponents";
+import Image from "next/image";
 
 function Nav() {
   const isUserLoggedIn = true;
@@ -46,14 +47,7 @@ function Nav() {
               Sign Out
             </button>
             <Link href="/profile">
-              {console.log(session?.user.image)}
-              <Image
-                src={session?.user.image}
-                width={37}
-                height={37}
-                alt="profile"
-                className="rounded-full"
-              />
+              <ProfileImage />
             </Link>
           </div>
         ) : (
@@ -78,13 +72,7 @@ function Nav() {
         {session?.user ? (
           <div className="flex">
             <div onClick={toggleDropDown}>
-              <Image
-                className="rounded-full"
-                src={session?.user.image}
-                width={37}
-                height={37}
-                alt="profile"
-              />
+              <ProfileImage />
             </div>
             {dropDown && (
               <div className="dropdown">

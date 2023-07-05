@@ -25,3 +25,4 @@ export const connectToDB = async () => {
     return await wait(attempts).then(connectToDB);
   }
 };
+connectToDB();
