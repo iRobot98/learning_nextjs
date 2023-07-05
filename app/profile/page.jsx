@@ -3,13 +3,13 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import Profile from "@components/Profile";
 
 const MyProfile = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
+  const redirect = () => router.push("/");
   const [myPosts, setMyPosts] = useState([]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const MyProfile = () => {
     }
   };
 
-  return (
+  return session && session.user ? (
     <Profile
       name="My"
       desc="Welcome to your personalized profile page. Share your exceptional prompts and inspire others with the power of your imagination"
@@ -55,6 +55,8 @@ const MyProfile = () => {
       handleEdit={handleEdit}
       handleDelete={handleDelete}
     />
+  ) : (
+    { redirect }
   );
 };
 
