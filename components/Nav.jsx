@@ -8,7 +8,7 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 function Nav() {
   const isUserLoggedIn = true;
-
+  const { data: session } = useSession();
   const [providers, set_Providers] = useState(null);
   const [dropDown, setDropDown] = useState(false);
   const toggleDropDown = () => setDropDown(!dropDown);
@@ -36,7 +36,7 @@ function Nav() {
 
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link className="black_btn" href="/create-prompt">
               Create Post
@@ -46,8 +46,9 @@ function Nav() {
               Sign Out
             </button>
             <Link href="/profile">
+              {console.log(session?.user.image)}
               <Image
-                src="/assets/images/logo.svg"
+                src={session?.user.image}
                 width={37}
                 height={37}
                 alt="profile"
@@ -61,9 +62,9 @@ function Nav() {
               Object.values(providers).map((provider) => (
                 <button
                   type="button"
-                  key={providers.name}
+                  key={provider.name}
                   onClick={() => signIn(provider.id)}
-                  className="black_btn"
+                  className="black_btn bg-black"
                 >
                   Sign In
                 </button>
@@ -74,19 +75,18 @@ function Nav() {
 
       {/* Mobile Navigation */}
       <div className="sm:hidden flex relative">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex">
             <div onClick={toggleDropDown}>
-            <Image
-              className="rounded-full"
-              src="/assets/images/logo.svg"
-              width={37}
-              height={37}
-              alt="profile"
-              
-            />
+              <Image
+                className="rounded-full"
+                src={session?.user.image}
+                width={37}
+                height={37}
+                alt="profile"
+              />
             </div>
-            {toggleDropDown && (
+            {dropDown && (
               <div className="dropdown">
                 <Link
                   href="/profile"
@@ -121,7 +121,7 @@ function Nav() {
               Object.values(providers).map((provider) => (
                 <button
                   type="button"
-                  key={providers.name}
+                  key={provider.name}
                   onClick={() => signIn(provider.id)}
                   className="black_btn"
                 >
