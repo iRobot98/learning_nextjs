@@ -8,6 +8,7 @@ export const POST = async (request) => {
     const newPrompt = new Prompt({
       creator: userId,
       tag,
+      prompt,
     });
 
     await newPrompt.save();
@@ -20,6 +21,7 @@ export const POST = async (request) => {
     return new Response(
       JSON.stringify({
         error: "Failed to create a new prompt",
+        message: error.message,
       }),
       { status: 500 }
     );
