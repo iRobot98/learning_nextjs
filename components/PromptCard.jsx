@@ -30,9 +30,12 @@ function PromptCard({ post, handleEdit, handleDelete, handleTagClick }) {
             className="rounded-full object-contain"
           />
           <div className="flex flex-col">
-            <h3 className="font-satoshi font-semibold text-gray-900">
-              {post.creator.username}
-            </h3>
+            <a href="/profile">
+              <h3 className="font-satoshi font-semibold text-gray-900">
+                {post.creator.username}
+              </h3>
+            </a>
+
             <p className="font-inter text-sm text-gray-500">
               {post.creator.email}
             </p>
